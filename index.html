@@ -1,25 +1,506 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vablond - Gestión Eficiente de Residuos | Transporte y Valorización</title>
-    <meta name="description" content="Vablond S.L. - Gestión integral de residuos en Andalucía Oriental. Transporte especializado, contenedores, valorización y cumplimiento normativo. SANDACH, MARPOL V y más." />
-    <meta name="author" content="Vablond S.L." />
-    <meta name="keywords" content="gestión residuos, transporte residuos, contenedores, SANDACH, MARPOL, Andalucía, valorización, economía circular" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vablond - Gestión Eficiente de Residuos</title>
+  <meta name="description" content="Vablond S.L. - Gestión integral de residuos en Andalucía Oriental.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#E63946',
+            'primary-dark': '#C62836',
+            secondary: '#1D3557',
+            foreground: '#1D3557',
+            'muted-foreground': '#457B9D',
+            border: '#A8DADC',
+            'brand-red': '#E63946',
+            'brand-red-light': '#F07178',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body class="bg-white text-foreground font-sans">
 
-    <meta property="og:title" content="Vablond - Gestión Eficiente de Residuos | Transporte y Valorización" />
-    <meta property="og:description" content="Soluciones integrales de gestión de residuos. Cumplimiento normativo, sostenibilidad y eficiencia operativa para empresas." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+<!-- HEADER/NAV -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="flex items-center justify-between h-20">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="LOGO_VABLOND.png" alt="Vablond" class="h-14 w-auto">
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#servicios" class="text-foreground hover:text-primary transition-colors font-medium">Servicios</a>
+        <a href="#sectores" class="text-foreground hover:text-primary transition-colors font-medium">Sectores</a>
+        <a href="#cobertura" class="text-foreground hover:text-primary transition-colors font-medium">Cobertura</a>
+        <a href="#contacto" class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg transition-all font-medium">Contactar</a>
+      </nav>
+      <button id="mobile-menu-btn" class="md:hidden p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+    <div class="container mx-auto px-4 py-4 flex flex-col gap-4">
+      <a href="#servicios" class="text-foreground hover:text-primary transition-colors font-medium">Servicios</a>
+      <a href="#sectores" class="text-foreground hover:text-primary transition-colors font-medium">Sectores</a>
+      <a href="#cobertura" class="text-foreground hover:text-primary transition-colors font-medium">Cobertura</a>
+      <a href="#contacto" class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg transition-all font-medium text-center">Contactar</a>
+    </div>
+  </div>
+</header>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+<main class="min-h-screen pt-20">
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!-- HERO -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1920&q=80')">
+    <div class="absolute inset-0 gradient-overlay"></div>
+  </div>
+  <div class="relative z-10 container mx-auto px-4 py-20 text-center">
+    <div class="max-w-4xl mx-auto animate-fade-in">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">Gestión Eficiente,<br><span class="text-brand-red-light">Futuro Sostenible</span></h1>
+      <p class="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">Soluciones integrales de gestión de residuos para empresas que priorizan el cumplimiento normativo y la sostenibilidad ambiental</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button onclick="scrollToSection('contacto')" class="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-4 rounded-lg shadow-xl transition-all hover:scale-105">Solicitar Presupuesto →</button>
+        <button onclick="scrollToSection('servicios')" class="bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 text-lg px-8 py-4 rounded-lg transition-all">Conocer Servicios</button>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"><div class="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-2"><div class="w-1 h-3 bg-white/50 rounded-full"></div></div></div>
+</section>
+
+<!-- ABOUT -->
+<section class="py-20 gradient-section">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Quiénes Somos</h2>
+      <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto"><strong>Vablond S.L.</strong> es una empresa especializada en <strong>gestión integral de residuos</strong> con compromiso con la sostenibilidad y el cumplimiento normativo.</p>
+    </div>
+    <div class="p-8 md:p-12 mb-12 bg-white rounded-lg shadow-lg border border-primary/20">
+      <p class="text-lg text-center">No solo gestionamos residuos, <strong class="text-primary">creamos valor</strong>. Transformamos los residuos en recursos aprovechables, reduciendo costes y minimizando riesgos legales.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105 text-center">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 mx-auto"><svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h3 class="font-bold mb-2">Experiencia Multisectorial</h3>
+        <p class="text-sm text-muted-foreground">Soluciones adaptadas a cada sector industrial</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105 text-center">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 mx-auto"><svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <h3 class="font-bold mb-2">Cumplimiento Legal</h3>
+        <p class="text-sm text-muted-foreground">Gestión conforme a normativa vigente</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105 text-center">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 mx-auto"><svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/></svg></div>
+        <h3 class="font-bold mb-2">Innovación Sostenible</h3>
+        <p class="text-sm text-muted-foreground">Procesos que minimizan impacto ambiental</p>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105 text-center">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 mx-auto"><svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+        <h3 class="font-bold mb-2">Proximidad al Cliente</h3>
+        <p class="text-sm text-muted-foreground">Atención personalizada y respuesta rápida</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servicios" class="py-20 bg-white">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Servicios Integrales</h2>
+      <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto">Ciclo completo de gestión: desde la recogida hasta la valorización final</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Transporte Especializado</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li>• Residuos asimilables a urbanos (RAU)</li>
+              <li>• Muebles y enseres</li>
+              <li>• MARPOL V (residuos de buques)</li>
+              <li>• SANDACH categorías 1 y 3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Contenedores a Medida</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li>• Contenedores de 5 m³, 8 m³, 20 m³, 30 m³</li>
+              <li>• Instalación y retirada flexible</li>
+              <li>• Adaptados a sus necesidades</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Valorización y Tratamiento</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li>• Clasificación y reciclaje</li>
+              <li>• Valorización energética</li>
+              <li>• Economía circular</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="m9 15 2 2 4-4"/></svg></div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">Gestión Documental CAE</h3>
+            <ul class="space-y-2 text-sm text-muted-foreground">
+              <li>• Contratos de Aceptación y Entrega</li>
+              <li>• Trazabilidad completa</li>
+              <li>• Certificados de gestión</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-8 bg-white rounded-lg border border-primary/20 shadow-lg">
+      <h3 class="text-2xl font-bold text-center mb-8">Nuestro Proceso: Ciclo Integral</h3>
+      <div class="relative">
+        <!-- Línea conectora -->
+        <div class="hidden md:block absolute top-6 left-[12.5%] right-[12.5%] h-1 bg-gradient-to-r from-primary via-primary to-primary rounded-full"></div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 relative">
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-3 relative z-10 ring-4 ring-white">1</div>
+            <h4 class="font-bold mb-2">Recogida</h4>
+            <p class="text-sm text-muted-foreground">Contenedores adaptados a su volumen</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-3 relative z-10 ring-4 ring-white">2</div>
+            <h4 class="font-bold mb-2">Transporte</h4>
+            <p class="text-sm text-muted-foreground">Flota especializada y certificada</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-3 relative z-10 ring-4 ring-white">3</div>
+            <h4 class="font-bold mb-2">Tratamiento</h4>
+            <p class="text-sm text-muted-foreground">Clasificación y procesamiento</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mx-auto mb-3 relative z-10 ring-4 ring-white">4</div>
+            <h4 class="font-bold mb-2">Valorización</h4>
+            <p class="text-sm text-muted-foreground">Reciclaje y recuperación de valor</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section id="sectores" class="py-20 gradient-section">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Sectores que Confían en Nosotros</h2>
+      <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto">Experiencia multisectorial con soluciones específicas para cada industria</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105">
+        <div class="w-14 h-14 rounded-lg bg-secondary/10 flex items-center justify-center mb-4"><svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Puertos y Navieras</h3>
+        <p class="text-muted-foreground mb-4">Gestión MARPOL V y limpieza portuaria</p>
+        <div class="text-sm text-muted-foreground space-y-1 pt-4 border-t"><p>• Normativa marítima</p><p>• Recogida 24/7</p></div>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105">
+        <div class="w-14 h-14 rounded-lg bg-secondary/10 flex items-center justify-center mb-4"><svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Industria Agroalimentaria</h3>
+        <p class="text-muted-foreground mb-4">SANDACH categorías 1 y 3</p>
+        <div class="text-sm text-muted-foreground space-y-1 pt-4 border-t"><p>• Trazabilidad completa</p><p>• Gestión certificada</p></div>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105">
+        <div class="w-14 h-14 rounded-lg bg-secondary/10 flex items-center justify-center mb-4"><svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Residuos Urbanos</h3>
+        <p class="text-muted-foreground mb-4">Residuos asimilables a urbanos, muebles y enseres, puntos limpios</p>
+        <div class="text-sm text-muted-foreground space-y-1 pt-4 border-t"><p>• Contenedores de gran capacidad</p><p>• Flexibilidad de recogida</p><p>• Valorización máxima</p></div>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105">
+        <div class="w-14 h-14 rounded-lg bg-secondary/10 flex items-center justify-center mb-4"><svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><line x1="3" x2="3" y1="22" y2="12"/><line x1="9" x2="9" y1="22" y2="8"/><line x1="15" x2="15" y1="22" y2="2"/><line x1="21" x2="21" y1="22" y2="12"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Administraciones Públicas</h3>
+        <p class="text-muted-foreground mb-4">Gestión residuos urbanos</p>
+        <div class="text-sm text-muted-foreground space-y-1 pt-4 border-t"><p>• Contratos marco</p><p>• Reporting</p></div>
+      </div>
+      <div class="p-6 bg-white rounded-lg border border-border hover:shadow-xl transition-all hover:scale-105">
+        <div class="w-14 h-14 rounded-lg bg-secondary/10 flex items-center justify-center mb-4"><svg class="w-7 h-7 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M2 22 16 8"/><path d="M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Sector Agrícola</h3>
+        <p class="text-muted-foreground mb-4">Plásticos y envases fitosanitarios</p>
+        <div class="text-sm text-muted-foreground space-y-1 pt-4 border-t"><p>• Economía circular</p><p>• Sostenibilidad</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Cumplimiento y Sostenibilidad</h2>
+      <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto">Garantizamos el cumplimiento legal y compromiso con el medio ambiente</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/></svg></div>
+          <div><h3 class="text-xl font-bold mb-3">100% Cumplimiento Normativo</h3><p class="text-muted-foreground">Ley 7/2022, SANDACH, MARPOL y toda la legislación aplicable.</p></div>
+        </div>
+      </div>
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="m9 15 2 2 4-4"/></svg></div>
+          <div><h3 class="text-xl font-bold mb-3">Trazabilidad Documental</h3><p class="text-muted-foreground">CAE, certificados de gestión y registros oficiales.</p></div>
+        </div>
+      </div>
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg></div>
+          <div><h3 class="text-xl font-bold mb-3">Seguridad Jurídica</h3><p class="text-muted-foreground">Eliminamos el riesgo de sanciones administrativas.</p></div>
+        </div>
+      </div>
+      <div class="p-8 bg-white rounded-lg border border-border hover:shadow-xl transition-all">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/></svg></div>
+          <div><h3 class="text-xl font-bold mb-3">Compromiso Ambiental</h3><p class="text-muted-foreground">Economía circular y maximización de valorización.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="p-8 md:p-12 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border border-primary/20 shadow-lg">
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-2xl font-bold mb-6">¿Por qué es importante?</h3>
+          <ul class="space-y-3 text-muted-foreground">
+            <li>✓ Evite sanciones de hasta 2.000.000 €</li>
+            <li>✓ Proteja la reputación de su empresa</li>
+            <li>✓ Demuestre compromiso con RSC y ODS</li>
+            <li>✓ Acceda a certificaciones ambientales</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold mb-6">Certificaciones</h3>
+          <div class="space-y-3">
+            <div class="p-3 bg-white rounded-lg border"><span class="font-medium">• Gestor Autorizado de Residuos</span></div>
+            <div class="p-3 bg-white rounded-lg border"><span class="font-medium">• Transportista Autorizado</span></div>
+            <div class="p-3 bg-white rounded-lg border"><span class="font-medium">• Registros SANDACH / MARPOL</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section id="cobertura" class="py-20 gradient-section">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Cobertura Geográfica</h2>
+      <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto">Operamos en <strong>Almería y Andalucía Oriental</strong>, incluyendo zona de puertos</p>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-8">
+      <div id="coverage-map" class="rounded-lg overflow-hidden shadow-lg border h-[400px] z-0"></div>
+      <div class="space-y-6">
+        <div class="p-6 bg-white rounded-lg border">
+          <h3 class="text-xl font-bold mb-4">Zonas de Actuación</h3>
+          <ul class="space-y-2 text-muted-foreground">
+            <li>• Almería y provincia</li>
+            <li>• Granada y área metropolitana</li>
+            <li>• Málaga y Costa del Sol</li>
+            <li>• Puertos de Motril, Málaga y Almería</li>
+          </ul>
+        </div>
+        <div class="p-6 bg-white rounded-lg border">
+          <h3 class="text-xl font-bold mb-3">¿Fuera de nuestra zona?</h3>
+          <p class="text-muted-foreground">Contáctenos y valoramos su caso. Estudiamos cada solicitud de forma personalizada.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contacto" class="py-20 bg-white">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Solicite su Presupuesto</h2>
+      <div class="w-24 h-1 bg-primary mx-auto mb-8"></div>
+      <p class="text-xl text-muted-foreground max-w-3xl mx-auto">Nuestro equipo responderá en menos de 24 horas</p>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="space-y-6">
+        <div class="p-6 bg-white rounded-lg border hover:shadow-lg transition-all">
+          <h3 class="font-bold mb-2">Teléfono</h3>
+          <p class="text-muted-foreground">950 82 10 10</p>
+          <p class="text-sm text-muted-foreground">Lun - Vie: 8:00 - 18:00h</p>
+        </div>
+        <div class="p-6 bg-white rounded-lg border hover:shadow-lg transition-all">
+          <h3 class="font-bold mb-2">Email</h3>
+          <p class="text-muted-foreground"><a href="mailto:comercial@vablond.com" class="hover:text-primary transition-colors">comercial@vablond.com</a></p>
+        </div>
+        <div class="p-6 bg-white rounded-lg border hover:shadow-lg transition-all">
+          <h3 class="font-bold mb-2">Ubicación</h3>
+          <p class="text-muted-foreground">Avda. Vega de Acá 37, 3F</p>
+          <p class="text-sm text-muted-foreground">04007 Almería</p>
+        </div>
+      </div>
+      <div class="lg:col-span-2">
+        <div class="p-8 bg-white rounded-lg border shadow-lg">
+          <h3 class="text-2xl font-bold mb-6">Formulario de Contacto</h3>
+          <form id="contact-form" class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div><label class="block text-sm font-medium mb-2">Nombre completo *</label><input type="text" name="name" required class="w-full px-4 py-3 rounded-lg border border-border focus:border-primary transition-all" placeholder="Juan Pérez"></div>
+              <div><label class="block text-sm font-medium mb-2">Email *</label><input type="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-border focus:border-primary transition-all" placeholder="juan@empresa.com"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div><label class="block text-sm font-medium mb-2">Empresa *</label><input type="text" name="company" required class="w-full px-4 py-3 rounded-lg border border-border focus:border-primary transition-all" placeholder="Nombre de la empresa"></div>
+              <div><label class="block text-sm font-medium mb-2">Teléfono</label><input type="tel" name="phone" class="w-full px-4 py-3 rounded-lg border border-border focus:border-primary transition-all" placeholder="+34 XXX XXX XXX"></div>
+            </div>
+            <div><label class="block text-sm font-medium mb-2">Mensaje *</label><textarea name="message" rows="5" required class="w-full px-4 py-3 rounded-lg border border-border focus:border-primary transition-all resize-none" placeholder="Describa el tipo de residuos, volumen y frecuencia..."></textarea></div>
+            <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-4 rounded-lg transition-all">Enviar Solicitud →</button>
+            <p class="text-xs text-muted-foreground text-center">Al enviar acepta nuestra política de privacidad.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-foreground text-white py-12">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="grid md:grid-cols-4 gap-8 mb-8">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="LOGO_VABLOND.png" alt="Vablond" class="h-16 w-auto">
+        </div>
+        <p class="text-white/80 mb-4 max-w-md">Gestión eficiente, futuro sostenible. Soluciones integrales de gestión de residuos para empresas comprometidas.</p>
+        <p class="text-sm text-white/60">© 2025 Vablond S.L. Todos los derechos reservados.</p>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">Servicios</h3>
+        <ul class="space-y-2 text-white/80 text-sm">
+          <li><a href="#servicios" class="hover:text-brand-red-light transition-colors">Transporte de residuos</a></li>
+          <li><a href="#servicios" class="hover:text-brand-red-light transition-colors">Contenedores</a></li>
+          <li><a href="#servicios" class="hover:text-brand-red-light transition-colors">Valorización</a></li>
+          <li><a href="#servicios" class="hover:text-brand-red-light transition-colors">Gestión CAE</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-4">Legal</h3>
+        <ul class="space-y-2 text-white/80 text-sm">
+          <li><a href="aviso-legal.html" class="hover:text-brand-red-light transition-colors">Aviso Legal</a></li>
+          <li><a href="politica-privacidad.html" class="hover:text-brand-red-light transition-colors">Política de Privacidad</a></li>
+          <li><a href="politica-cookies.html" class="hover:text-brand-red-light transition-colors">Política de Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-white/20 text-center text-sm text-white/60">
+      <p>Vablond S.L. - CIF: B44740223 - Gestor Autorizado de Residuos - Registro SANDACH - Transportista Autorizado</p>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- Cookie Banner -->
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-foreground text-white p-4 z-50 transform translate-y-full transition-transform duration-300">
+  <div class="container mx-auto max-w-6xl">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex-1">
+        <p class="text-sm">
+          Utilizamos cookies propias y de terceros para mejorar nuestros servicios. 
+          Puede aceptar todas las cookies o configurar sus preferencias. 
+          <a href="politica-cookies.html" class="underline hover:text-brand-red-light">Más información</a>
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <button id="cookie-settings" class="px-4 py-2 border border-white/30 rounded-lg hover:bg-white/10 transition-all text-sm">
+          Configurar
+        </button>
+        <button id="cookie-reject" class="px-4 py-2 border border-white/30 rounded-lg hover:bg-white/10 transition-all text-sm">
+          Rechazar
+        </button>
+        <button id="cookie-accept" class="px-4 py-2 bg-primary hover:bg-primary-dark rounded-lg transition-all text-sm font-medium">
+          Aceptar todas
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cookie Settings Modal -->
+<div id="cookie-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-foreground">Configuración de Cookies</h3>
+        <button id="close-cookie-modal" class="text-muted-foreground hover:text-foreground">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="space-y-4">
+        <div class="p-4 border rounded-lg">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-medium text-foreground">Cookies necesarias</h4>
+            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Siempre activas</span>
+          </div>
+          <p class="text-sm text-muted-foreground">Esenciales para el funcionamiento básico del sitio web.</p>
+        </div>
+        <div class="p-4 border rounded-lg">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-medium text-foreground">Cookies analíticas</h4>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="analytics-cookies" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+            </label>
+          </div>
+          <p class="text-sm text-muted-foreground">Nos ayudan a entender cómo los visitantes interactúan con el sitio.</p>
+        </div>
+        <div class="p-4 border rounded-lg">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-medium text-foreground">Cookies de marketing</h4>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="marketing-cookies" class="sr-only peer">
+              <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+            </label>
+          </div>
+          <p class="text-sm text-muted-foreground">Utilizadas para mostrar anuncios relevantes.</p>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button id="save-cookie-settings" class="flex-1 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-all font-medium">
+          Guardar preferencias
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
 </html>
