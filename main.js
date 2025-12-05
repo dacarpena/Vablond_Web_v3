@@ -139,16 +139,59 @@ function initMobileMenu() {
 
 // ========== HEADER SCROLL EFFECT ==========
 function initHeaderScroll() {
-  const header = document.querySelector('header');
-  if (header) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('shadow-md');
-      } else {
-        header.classList.remove('shadow-md');
-      }
-    });
-  }
+  const header = document.getElementById('main-header');
+  if (!header) return;
+  
+  // Get hero section height
+  const getHeroHeight = () => {
+    const hero = document.querySelector('section');
+    return hero ? hero.offsetHeight : window.innerHeight;
+  };
+  
+  let ticking = false;
+  
+  const updateHeader = () => {
+    const currentScroll = window.scrollY;
+    const heroHeight = getHeroHeight();
+    
+    // Calculate opacity based on scroll position
+    // Start fading at 30% of hero, completely hidden at 100% of hero
+    const fadeStart = heroHeight * 0.3;
+    const fadeEnd = heroHeight;
+    
+    let opacity = 1;
+    
+    if (currentScroll <= fadeStart) {
+      opacity = 1;
+    } else if (currentScroll >= fadeEnd) {
+      opacity = 0;
+    } else {
+      opacity = 1 - ((currentScroll - fadeStart) / (fadeEnd - fadeStart));
+    }
+    
+    // Apply opacity and pointer events
+    header.style.opacity = opacity;
+    header.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
+    
+    // Add scrolled class for subtle styling changes
+    if (currentScroll > 80) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+    
+    ticking = false;
+  };
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateHeader);
+      ticking = true;
+    }
+  });
+  
+  // Initial check
+  updateHeader();
 }
 
 // ========== LEAFLET MAP ==========
