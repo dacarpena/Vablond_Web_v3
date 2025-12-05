@@ -156,109 +156,45 @@ function initCoverageMap() {
   const mapContainer = document.getElementById('coverage-map');
   if (!mapContainer || typeof L === 'undefined') return;
   
-  // Mapa con estilo limpio
+  // Mapa centrado en Andalucía Oriental con vista de Almería
   const map = L.map('coverage-map', {
     scrollWheelZoom: false,
     zoomControl: false
-  }).setView([36.9, -3.0], 8);
+  }).setView([36.85, -3.2], 8);
   
   // Control de zoom en esquina derecha
   L.control.zoom({ position: 'topright' }).addTo(map);
   
-  // Capa CartoDB (más profesional y limpia)
+  // Capa CartoDB (estilo limpio y profesional)
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
     subdomains: 'abcd',
     maxZoom: 19
   }).addTo(map);
   
-  // Iconos personalizados
-  const createIcon = (color, isMain = false) => L.divIcon({
+  // Icono personalizado para Almería
+  const almeriaIcon = L.divIcon({
     className: 'custom-marker',
     html: `<div style="
-      background: ${color};
-      width: ${isMain ? '24px' : '16px'};
-      height: ${isMain ? '24px' : '16px'};
+      background: #E63946;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 3px solid white;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      ${isMain ? 'animation: pulse 2s infinite;' : ''}
     "></div>`,
-    iconSize: [isMain ? 24 : 16, isMain ? 24 : 16],
-    iconAnchor: [isMain ? 12 : 8, isMain ? 12 : 8]
+    iconSize: [20, 20],
+    iconAnchor: [10, 10]
   });
   
-  const redIcon = createIcon('#E63946', true);
-  const blueIcon = createIcon('#1D3557');
-  const portIcon = createIcon('#457B9D');
-  
-  // Área de cobertura (polígono suavizado)
-  const coverageArea = L.polygon([
-    [37.45, -4.7],
-    [37.35, -3.2],
-    [37.25, -1.75],
-    [36.72, -1.58],
-    [36.42, -2.0],
-    [36.35, -3.6],
-    [36.52, -4.75],
-  ], {
-    color: '#E63946',
-    fillColor: '#E63946',
-    fillOpacity: 0.08,
-    weight: 2,
-    dashArray: '8, 4'
-  }).addTo(map);
-  
-  // Marcadores de ciudades
-  const locations = [
-    { coords: [36.8381, -2.4597], name: 'Almería', desc: 'Sede Central de Vablond', icon: redIcon, main: true },
-    { coords: [37.1773, -3.5986], name: 'Granada', desc: 'Área metropolitana', icon: blueIcon },
-    { coords: [36.7213, -4.4214], name: 'Málaga', desc: 'Costa del Sol', icon: blueIcon },
-    { coords: [36.7244, -3.5185], name: 'Puerto de Motril', desc: 'Servicio MARPOL V', icon: portIcon },
-    { coords: [36.7125, -4.4200], name: 'Puerto de Málaga', desc: 'Servicio MARPOL V', icon: portIcon },
-    { coords: [36.8350, -2.4650], name: 'Puerto de Almería', desc: 'Servicio MARPOL V', icon: portIcon },
-  ];
-  
-  locations.forEach(loc => {
-    const marker = L.marker(loc.coords, { icon: loc.icon }).addTo(map);
-    const popupContent = `
-      <div style="text-align: center; min-width: 140px;">
-        <strong style="color: #1D3557; font-size: 14px;">${loc.name}</strong>
-        <p style="margin: 4px 0 0; color: #457B9D; font-size: 12px;">${loc.desc}</p>
-      </div>
-    `;
-    marker.bindPopup(popupContent);
-    if (loc.main) marker.openPopup();
-  });
-  
-  // Leyenda
-  const legend = L.control({ position: 'bottomleft' });
-  legend.onAdd = function() {
-    const div = L.DomUtil.create('div', 'map-legend');
-    div.innerHTML = `
-      <div style="background: white; padding: 10px 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 12px;">
-        <div style="font-weight: 600; margin-bottom: 8px; color: #1D3557;">Leyenda</div>
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-          <span style="width: 12px; height: 12px; background: #E63946; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></span>
-          <span style="color: #457B9D;">Sede Vablond</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-          <span style="width: 10px; height: 10px; background: #1D3557; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></span>
-          <span style="color: #457B9D;">Ciudades</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-          <span style="width: 10px; height: 10px; background: #457B9D; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.2);"></span>
-          <span style="color: #457B9D;">Puertos</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="width: 16px; height: 3px; background: #E63946; border-radius: 2px;"></span>
-          <span style="color: #457B9D;">Zona cobertura</span>
-        </div>
-      </div>
-    `;
-    return div;
-  };
-  legend.addTo(map);
+  // Marcador de Almería
+  const marker = L.marker([36.8381, -2.4597], { icon: almeriaIcon }).addTo(map);
+  marker.bindPopup(`
+    <div style="text-align: center; min-width: 120px;">
+      <strong style="color: #1D3557; font-size: 14px;">Almería</strong>
+      <p style="margin: 4px 0 0; color: #457B9D; font-size: 12px;">Sede Central</p>
+    </div>
+  `).openPopup();
 }
 
 // ========== INITIALIZATION ==========
